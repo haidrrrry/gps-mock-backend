@@ -18,7 +18,6 @@ const routes = {
   'admin-user-devicelimit': require('./admin-user-devicelimit'),
   'admin-user-ban': require('./admin-user-ban'),
   'admin-user-sessions': require('./admin-user-sessions'),
-  'migrate': require('./migrate'),
 };
 
 // Route matching for /api/:route
