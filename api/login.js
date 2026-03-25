@@ -45,6 +45,9 @@ module.exports = async function handler(req, res) {
     //   Login Device C  → kills Device A session → limit = 0
     //   Login Device A  → BLOCKED (limit = 0), must contact admin
 
+    // DEBUG: Log the current limit
+    console.log(`[DEBUG] User ${email} current deviceLimit: ${user.deviceLimit}`);
+
     // Check if user has any login slots left
     if (user.deviceLimit <= 0) {
         return res.status(403).json({ 
