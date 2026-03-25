@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Detail</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <ion-icon name="earth"></ion-icon> Admin
+            </div>
+            <a href="dashboard.html" class="nav-item"><ion-icon name="grid-outline"></ion-icon> Dashboard</a>
+            <a href="users.html" class="nav-item active"><ion-icon name="people-outline"></ion-icon> Users</a>
+            <div class="sidebar-footer">
+                <button id="theme-toggle" class="btn-icon"><ion-icon name="moon-outline"></ion-icon></button>
+                <button id="logout-btn" class="btn-icon text-danger"><ion-icon name="log-out-outline"></ion-icon></button>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <header class="page-header">
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <a href="users.html" class="btn-icon" style="background:#e2e8f0; border-radius:50%; padding:5px;"><ion-icon name="arrow-back-outline"></ion-icon></a>
+                    <h1 id="user-email">User Detail</h1>
+                    <span id="user-badge" class="badge"></span>
+                </div>
+                <div>
+                    <button id="btn-ban" class="btn btn-danger">Ban</button>
+                    <button class="btn btn-outline" style="border-color:var(--danger); color:var(--danger);" onclick="deleteUser()">Delete User</button>
+                </div>
+            </header>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="card">
+                    <h3>Configuration</h3>
+
+                    <div style="margin-top: 20px;">
+                        <label>Login Chances (Remaining Slots)</label>
+                        <div style="display:flex; gap:10px;">
+                            <input type="number" id="inp-limit" min="0">
+                            <button class="btn btn-primary" id="btn-limit">Set Chances</button>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <label>Add Subscription (Days)</label>
+                        <div style="display:flex; gap:10px;">
+                            <input type="number" id="inp-sub-days" min="1" placeholder="Days">
+                            <button class="btn btn-primary" id="btn-add-sub">Add Days</button>
+                        </div>
+                        <small style="color:var(--warning); display:block; margin-top:5px;">Current Expiry: <span id="lbl-expiry"></span></small>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <label>Change Password</label>
+                        <div style="display:flex; gap:10px;">
+                            <input type="password" id="inp-password" placeholder="New Password">
+                            <button class="btn btn-primary" id="btn-password">Update</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Active Sessions</h3>
+                    <div class="table-responsive" style="margin-top: 20px;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Device Name</th>
+                                    <th>Logged In</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sessions-tbody">
+                                <tr><td colspan="4">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/user-detail.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <ion-icon name="earth"></ion-icon> Admin
+            </div>
+            <a href="dashboard.html" class="nav-item"><ion-icon name="grid-outline"></ion-icon> Dashboard</a>
+            <a href="users.html" class="nav-item active"><ion-icon name="people-outline"></ion-icon> Users</a>
+            <div class="sidebar-footer">
+                <button id="theme-toggle" class="btn-icon"><ion-icon name="moon-outline"></ion-icon></button>
+                <button id="logout-btn" class="btn-icon text-danger"><ion-icon name="log-out-outline"></ion-icon></button>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <header class="page-header">
+                <h1>Users</h1>
+                <button class="btn btn-primary" onclick="window.showCreateModal()"><ion-icon name="person-add-outline"></ion-icon> Add User</button>
+            </header>
+            
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                    <input type="text" id="search-input" placeholder="Search email..." style="max-width:300px; margin:0;">
+                    <select id="filter-select" style="max-width:200px; margin:0;">
+                        <option value="all">All</option>
+                        <option value="active">Active</option>
+                        <option value="banned">Banned</option>
+                        <option value="expired">Expired</option>
+                    </select>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Sub Expiry</th>
+                                <th>Login Chances</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-tbody">
+                            <tr><td colspan="5">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Create User Modal -->
+    <div id="create-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create User</h2>
+                <button class="btn-icon text-danger" onclick="window.hideCreateModal()"><ion-icon name="close-circle-outline"></ion-icon></button>
+            </div>
+            <form id="create-form">
+                <input type="email" id="c-email" placeholder="Email" required>
+                <input type="password" id="c-password" placeholder="Password" required>
+                <div style="display:flex; gap:10px;">
+                    <div style="flex:1">
+                        <label>Sub Days</label>
+                        <input type="number" id="c-days" value="30" required>
+                    </div>
+                    <div style="flex:1">
+                        <label>Login Chances (Slots)</label>
+                        <input type="number" id="c-limit" value="3" required>
+                    </div>
+                </div>
+                <div style="text-align: right; margin-top:20px;">
+                    <button type="button" class="btn btn-outline" onclick="window.hideCreateModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="js/auth.js"></script>
+    <script src="js/users.js"></script>
+</body>
+</html>

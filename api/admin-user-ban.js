@@ -1,0 +1,27 @@
+const connectDB = require('./helpers/db');
+const User = require('./helpers/User');
+const Session = require('./helpers/Session');
+const adminMiddleware = require('./helpers/adminMiddleware');
+
+module.exports = async function handler(req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  if (req.method === "OPTIONS") return res.status(200).end();
+
+  if (!adminMiddleware(req, res)) return;
+
+  try {
+    await connectDB();
+    if (req.method !== 'PUT') return res.status(405).json({ message: 'Method Not Allowed' });
+    const { id } = req.query;
+    const { ban } = req.body;
+    await User.findByIdAndUpdate(id, { isBanned: ban });
+    if (ban) {
+        await Session.updateMany({ userId: id }, { isActive: false });
+    }
+    return res.status(200).json({ message: ban ? 'User banned' : 'User unbanned' });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
