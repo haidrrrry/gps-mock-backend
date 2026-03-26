@@ -7,6 +7,13 @@ const userSchema = new mongoose.Schema({
   isBanned: { type: Boolean, default: false },
   subscriptionExpiry: { type: Date, default: null },
   deviceLimit: { type: Number, default: 3 },
+  favorites: [{
+    name: { type: String, required: true },
+    address: { type: String, required: true },
+    latitude: { type: Number, required: true },
+    longitude: { type: Number, required: true },
+    createdAt: { type: Date, default: Date.now }
+  }],
   createdAt: { type: Date, default: Date.now }
 });
 

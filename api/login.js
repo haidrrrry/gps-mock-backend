@@ -82,7 +82,11 @@ module.exports = async function handler(req, res) {
         await session.save();
     }
     
-    return res.status(200).json({ token, subscriptionExpiry: user.subscriptionExpiry });
+    return res.status(200).json({ 
+      token, 
+      subscriptionExpiry: user.subscriptionExpiry,
+      favorites: user.favorites || []
+    });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: 'server_error' });

@@ -26,24 +26,26 @@ module.exports = async function handler(req, res) {
     
     const user = await User.findById(decoded.id);
     if (!user) return res.status(200).json({ valid: false, reason: "user_not_found" });
-    
+
+    // Optional constraint to block favoriting if banned/expired, but generally standard API defense
     if (user.isBanned) return res.status(200).json({ valid: false, reason: "banned" });
-    
-    if (user.subscriptionExpiry && Date.now() > new Date(user.subscriptionExpiry).getTime()) {
-        return res.status(200).json({ valid: false, reason: "expired" });
-    }
-    
+
+    // Verify session
     const session = await Session.findOne({ token, userId: user._id });
     if (!session || !session.isActive) {
         return res.status(200).json({ valid: false, reason: "session_killed" });
     }
-    
-    return res.status(200).json({ 
-      valid: true, 
-      reason: "ok", 
-      subscriptionExpiry: user.subscriptionExpiry,
-      favorites: user.favorites || []
-    });
+
+    const { favorites } = req.body;
+    if (!Array.isArray(favorites)) {
+      return res.status(400).json({ error: "favorites_must_be_array" });
+    }
+
+    // Overwrite the user's favorites array
+    user.favorites = favorites;
+    await user.save();
+
+    return res.status(200).json({ success: true, favorites: user.favorites });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: 'server_error' });
